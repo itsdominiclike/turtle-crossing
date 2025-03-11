@@ -1,15 +1,7 @@
 from turtle import Turtle
 import random
+from constants import HEIGHT, COLORS, STARTING_MOVE_DISTANCE, MOVE_INCREMENT, START_X, PLAYABLE_TOP, PLAYABLE_BOTTOM
 
-from main import HEIGHT
-
-COLORS = ["red", "orange", "yellow", "green", "blue", "purple"]
-STARTING_MOVE_DISTANCE = 5
-MOVE_INCREMENT = 10
-START_X = 320
-
-PLAYABLE_TOP = HEIGHT/2
-PLAYABLE_BOTTOM = (HEIGHT/2)*-1
 
 
 class CarManager(Turtle):

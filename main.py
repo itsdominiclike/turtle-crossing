@@ -3,9 +3,8 @@ from turtle import Screen
 from player import Player
 from car_manager import CarManager
 from scoreboard import Scoreboard
+from constants import HEIGHT, WIDTH
 
-HEIGHT = 600
-WIDTH = 600
 
 player = Player()
 

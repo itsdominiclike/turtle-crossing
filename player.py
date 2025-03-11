@@ -1,8 +1,7 @@
 from turtle import Turtle
+from constants import STARTING_POSITION, MOVE_DISTANCE, FINISH_LINE_Y
 
-STARTING_POSITION = (0, -280)
-MOVE_DISTANCE = 10
-FINISH_LINE_Y = 280
+
 
 
 class Player(Turtle):
