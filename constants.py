@@ -2,7 +2,7 @@
 HEIGHT = 600
 WIDTH = 600
 
-#
+#list of
 
 # Used in player
 STARTING_POSITION = (0, -280)

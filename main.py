@@ -1,5 +1,6 @@
 import time
 import turtle
+import random
 from turtle import Screen
 from player import Player
 from car_manager import CarManager
@@ -33,7 +34,7 @@ def get_lane_center(lane_height):
     lane_centers = []
     current_lane = PLAYABLE_BOTTOM
     while current_lane <= PLAYABLE_TOP:
-        lane_center = (current_lane+lane_height)/2
+        lane_center = current_lane+(lane_height/2)
         lane_centers.append(lane_center)
         current_lane+= lane_height
     return lane_centers
@@ -44,7 +45,10 @@ screen.tracer(0)
 
 lane_height = lanes(50) # drawing lanes, returning lane_height for later use
 lane_centers = get_lane_center(lane_height)
-print(lane_centers)
+
+# random y position from lane_centers list
+rand_y = random.choice(lane_centers)
+
 
 # basic key input listener - can make it similar to the pong game if needed
 screen.listen()
@@ -53,10 +57,14 @@ screen.onkeypress(player.move_down, "Down")
 screen.onkeypress(player.move_left, "Left")
 screen.onkeypress(player.move_right, "Right")
 
+
+car = CarManager(rand_y)
+
 game_is_on = True
 while game_is_on:
     time.sleep(0.1)
     screen.update()
-    car = CarManager()
+    car.move()
+
 
 
