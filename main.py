@@ -4,11 +4,14 @@ from player import Player
 from car_manager import CarManager
 from scoreboard import Scoreboard
 
+HEIGHT = 600
+WIDTH = 600
+
 player = Player()
 
 
 screen = Screen()
-screen.setup(width=600, height=600)
+screen.setup(WIDTH, HEIGHT)
 screen.tracer(0)
 
 # basic key input listener - can make it similar to the pong game if needed
@@ -22,4 +25,5 @@ game_is_on = True
 while game_is_on:
     time.sleep(0.1)
     screen.update()
+    car = CarManager()
 
