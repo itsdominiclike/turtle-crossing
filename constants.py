@@ -7,7 +7,7 @@ WIDTH = 600
 # Used in player
 STARTING_POSITION = (0, -280)
 MOVE_DISTANCE = 50
-FINISH_LINE_Y = 280
+FINISH_LINE_Y = 280 # might change as player moves in increments of 50
 
 # Car settings
 COLORS = ["red", "orange", "yellow", "green", "blue", "purple"]

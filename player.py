@@ -15,16 +15,28 @@ class Player(Turtle):
         self.start_x = 0
         self.start_y = -280
 
-    # current movement logic (added ability to also go down, left and right)
+    # current movement logic (stays in playable area - top of area is end of level)
     def move_up(self):
         self.start_y += MOVE_DISTANCE
         self.goto(self.start_x, self.start_y)
+
     def move_down(self):
-        self.start_y -= MOVE_DISTANCE
-        self.goto(self.start_x, self.start_y)
+        if self.ycor() > -280:
+            self.start_y -= MOVE_DISTANCE
+            self.goto(self.start_x, self.start_y)
+
     def move_right(self):
-        self.start_x += MOVE_DISTANCE
-        self.goto(self.start_x, self.start_y)
+        if self.xcor() < 250:
+            self.start_x += MOVE_DISTANCE
+            self.goto(self.start_x, self.start_y)
+        elif 250 >= self.xcor() < 280:
+            self.start_x += 20
+            self.goto(self.start_x, self.start_y)
+
     def move_left(self):
-        self.start_x -= MOVE_DISTANCE
-        self.goto(self.start_x, self.start_y)
+        if self.xcor() > -250:
+            self.start_x -= MOVE_DISTANCE
+            self.goto(self.start_x, self.start_y)
+        elif -250 <= self.xcor() < -280:
+            self.start_x -= 20
+            self.goto(self.start_x, self.start_y)

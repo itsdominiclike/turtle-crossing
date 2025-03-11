@@ -5,11 +5,11 @@ from turtle import Screen
 from player import Player
 from car_manager import CarManager
 from scoreboard import Scoreboard
-from constants import HEIGHT, WIDTH, PLAYABLE_TOP, PLAYABLE_BOTTOM
-
+from constants import HEIGHT, WIDTH, PLAYABLE_TOP, PLAYABLE_BOTTOM, FINISH_LINE_Y, STARTING_POSITION
 
 player = Player()
 
+# may be a good idea to put the bottom two functions inside of car_manager
 # creating the lanes
 def lanes(lane_height):
     playable_bottom = PLAYABLE_BOTTOM
@@ -28,8 +28,7 @@ def lanes(lane_height):
             lane.forward(10)
         playable_bottom+=lane_height
     return lane_height
-
-# creating a function that finds the center of the lanes
+# finds the center of the lanes, appends Y coordinate to list
 def get_lane_center(lane_height):
     lane_centers = []
     current_lane = PLAYABLE_BOTTOM
@@ -38,6 +37,7 @@ def get_lane_center(lane_height):
         lane_centers.append(lane_center)
         current_lane+= lane_height
     return lane_centers
+
 
 screen = Screen()
 screen.setup(WIDTH, HEIGHT)
@@ -66,5 +66,11 @@ while game_is_on:
     screen.update()
     car.move()
 
+#     detect if turtle collides with car
+    if player.distance(car) < 20:
+        game_is_on = False
 
+
+
+screen.exitonclick()
 
