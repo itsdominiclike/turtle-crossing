@@ -9,8 +9,9 @@ class CarManager(Turtle):
         super().__init__()
         # self.x_pos = x_pos
         # self.y_pos = y_pos
-        self.create_car()
         self.randcolor = random.choice(COLORS)
+        self.create_car()
+
 
 
     def create_car(self):
@@ -18,5 +19,8 @@ class CarManager(Turtle):
         self.shapesize(1,2,None)
         self.shape('square')
         self.color(self.randcolor)
+
+
+
 
 
