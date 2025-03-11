@@ -2,6 +2,8 @@
 HEIGHT = 600
 WIDTH = 600
 
+#
+
 # Used in player
 STARTING_POSITION = (0, -280)
 MOVE_DISTANCE = 50

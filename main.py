@@ -10,7 +10,7 @@ from constants import HEIGHT, WIDTH, PLAYABLE_TOP, PLAYABLE_BOTTOM
 player = Player()
 
 # creating the lanes
-def lanes():
+def lanes(lane_height):
     playable_bottom = PLAYABLE_BOTTOM
     lane = turtle.Turtle()
     lane.speed(0)
@@ -25,16 +25,26 @@ def lanes():
             lane.forward(10)
             lane.penup()
             lane.forward(10)
-        playable_bottom+=50
+        playable_bottom+=lane_height
+    return lane_height
 
-
-
+# creating a function that finds the center of the lanes
+def get_lane_center(lane_height):
+    lane_centers = []
+    current_lane = PLAYABLE_BOTTOM
+    while current_lane <= PLAYABLE_TOP:
+        lane_center = (current_lane+lane_height)/2
+        lane_centers.append(lane_center)
+        current_lane+= lane_height
+    return lane_centers
 
 screen = Screen()
 screen.setup(WIDTH, HEIGHT)
 screen.tracer(0)
 
-lanes() # drawing lanes
+lane_height = lanes(50) # drawing lanes, returning lane_height for later use
+lane_centers = get_lane_center(lane_height)
+print(lane_centers)
 
 # basic key input listener - can make it similar to the pong game if needed
 screen.listen()
