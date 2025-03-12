@@ -32,10 +32,11 @@ def lanes(lane_height):
 def get_lane_center(lane_height):
     lane_centers = []
     current_lane = PLAYABLE_BOTTOM
-    while current_lane <= PLAYABLE_TOP:
+    while current_lane < PLAYABLE_TOP:
         lane_center = current_lane+(lane_height/2)
-        lane_centers.append(lane_center)
-        current_lane+= lane_height
+        if lane_center <= 250:
+            lane_centers.append(lane_center)
+            current_lane+= lane_height
     return lane_centers
 
 
@@ -45,6 +46,7 @@ screen.tracer(0)
 
 lane_height = lanes(50) # drawing lanes, returning lane_height for later use
 lane_centers = get_lane_center(lane_height)
+
 
 # random y position from lane_centers list
 rand_y = random.choice(lane_centers)
@@ -66,7 +68,7 @@ while game_is_on:
     screen.update()
     car.move()
 
-#     detect if turtle collides with car
+#     detect if turtle collides with car - sometimes it looks like they don't collide (the next key press would cause collision)
     if player.distance(car) < 20:
         game_is_on = False
 
