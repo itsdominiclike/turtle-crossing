@@ -49,7 +49,7 @@ lane_centers = get_lane_center(lane_height)
 
 
 # random y position from lane_centers list
-rand_y = random.choice(lane_centers)
+# rand_y = random.choice(lane_centers)
 
 
 # basic key input listener - can make it similar to the pong game if needed
@@ -60,17 +60,32 @@ screen.onkeypress(player.move_left, "Left")
 screen.onkeypress(player.move_right, "Right")
 
 
-car = CarManager(rand_y)
+# car = CarManager(rand_y)
+loop_counter = 0
+cars = []
 
 game_is_on = True
 while game_is_on:
     time.sleep(0.1)
     screen.update()
-    car.move()
 
-#     detect if turtle collides with car - sometimes it looks like they don't collide (the next key press would cause collision)
-    if player.distance(car) < 20:
-        game_is_on = False
+
+    if loop_counter % 6 == 0: #creates a new car every 6 times the loop runs
+        rand_y = random.choice(lane_centers)
+        new_car = CarManager(rand_y)
+        cars.append(new_car)
+
+    for i in cars:
+        i.move()# moves car - only until a new car is created
+
+
+#   detect if turtle collides with car - sometimes it looks like they don't collide (the next key press would cause collision)
+#     if player.distance(new_car) < 20: #not great currently as new_car constantly becomes a new car
+#         game_is_on = False
+
+    loop_counter +=1
+
+
 
 
 
