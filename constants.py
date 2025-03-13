@@ -2,8 +2,6 @@
 HEIGHT = 600
 WIDTH = 600
 
-#list of
-
 # Used in player
 STARTING_POSITION = (0, -280)
 MOVE_DISTANCE = 25
@@ -18,4 +16,3 @@ START_X = 320
 # Playable area limits
 PLAYABLE_TOP = HEIGHT / 2 - 50
 PLAYABLE_BOTTOM = -(HEIGHT / 2 - 50)
-

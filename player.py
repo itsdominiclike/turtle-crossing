@@ -1,23 +1,20 @@
 from turtle import Turtle
 from constants import STARTING_POSITION, MOVE_DISTANCE, FINISH_LINE_Y
 
-
-
-
 class Player(Turtle):
     def __init__(self):
         super().__init__()
         self.shape('turtle')
         self.color('black')
         self.penup()
-        self.goto(STARTING_POSITION)
+        self.go_to_start()
         self.setheading(90)
         self.start_x = 0
         self.start_y = -280
 
     # current movement logic (stays in playable area - top of area is end of level)
     def move_up(self):
-        if self.ycor() -300:
+        if self.ycor() -280:
             self.start_y += MOVE_DISTANCE
             self.goto(self.start_x, self.start_y)
 
@@ -59,8 +56,15 @@ class Player(Turtle):
     def check_collision(self, car_list):
         for car in car_list:
             if self.distance(car) < 20:
-                return True  # Collision detected
-        return False  # No collision
+                return True
+        return False
 
+    def at_finish_line(self):
+        if self.ycor() >= FINISH_LINE_Y:
+            self.go_to_start()
+            return True
+        return False
 
-
+    def go_to_start(self):
+        self.start_x, self.start_y = STARTING_POSITION
+        self.goto(STARTING_POSITION)
