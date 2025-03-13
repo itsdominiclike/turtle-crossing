@@ -5,9 +5,10 @@ from turtle import Screen
 from player import Player
 from car_manager import CarManager
 from scoreboard import Scoreboard
-from constants import HEIGHT, WIDTH, PLAYABLE_TOP, PLAYABLE_BOTTOM, FINISH_LINE_Y, STARTING_POSITION
+from constants import HEIGHT, WIDTH, PLAYABLE_TOP, PLAYABLE_BOTTOM, FINISH_LINE_Y, STARTING_POSITION, MOVE_INCREMENT
 
 player = Player()
+scoreboard = Scoreboard()
 
 # may be a good idea to put the bottom two functions inside of car_manager
 # creating the lanes
@@ -54,6 +55,10 @@ lane_centers = get_lane_center(lane_height)
 
 # basic key input listener - can make it similar to the pong game if needed
 screen.listen()
+# screen.onkeypress(lambda: player.move_up(cars), "Up")
+# screen.onkeypress(lambda: player.move_down(cars), "Down")
+# screen.onkeypress(lambda: player.move_left(cars), "Left")
+# screen.onkeypress(lambda: player.move_right(cars), "Right")
 screen.onkeypress(player.move_up, "Up")
 screen.onkeypress(player.move_down, "Down")
 screen.onkeypress(player.move_left, "Left")
@@ -70,24 +75,30 @@ while game_is_on:
     screen.update()
 
 
-    if loop_counter % 6 == 0: #creates a new car every 6 times the loop runs
-        rand_y = random.choice(lane_centers)
-        new_car = CarManager(rand_y)
-        cars.append(new_car)
+    for car in cars: # moving each car in list
+        car.move()
+    # new car very 5th loop
+    if loop_counter % 5 == 0: # if there's been 5 loops
+        rand_y = random.choice(lane_centers) #new random position for car to be in
+        new_car = CarManager(rand_y) # new car
+        cars.append(new_car) # adding new car to list of cars
 
-    for i in cars:
-        i.move()# moves car - only until a new car is created
+    # car collision detection
+    if player.check_collision(cars):
+        # game_is_on = False
+        screen.update()
+        scoreboard.game_over()
+        game_is_on=False
+
+    # need to put player back to start, make cars faster and increase level by 1
+    if player.ycor() > 280:
+        player.goto(STARTING_POSITION)
+        scoreboard.update_scoreboard()
+        MOVE_INCREMENT+=1
 
 
-#   detect if turtle collides with car - sometimes it looks like they don't collide (the next key press would cause collision)
-#     if player.distance(new_car) < 20: #not great currently as new_car constantly becomes a new car
-#         game_is_on = False
+
 
     loop_counter +=1
-
-
-
-
-
 screen.exitonclick()
 
