@@ -1,100 +1,64 @@
 import time
-import turtle
-import random
 from turtle import Screen
 from player import Player
 from car_manager import CarManager
 from scoreboard import Scoreboard
-from constants import HEIGHT, WIDTH, PLAYABLE_TOP, PLAYABLE_BOTTOM, FINISH_LINE_Y, STARTING_POSITION, MOVE_INCREMENT, MOVE_DISTANCE
-
+from constants import HEIGHT, WIDTH
+"""
+Main module for the Turtle Crossing game.
+This module sets up the game, initializes objects, and runs the main game loop.
+"""
+## Setup game parameters
+# Interval at which new cars are spawned
+car_spawn_interval = 6
 loop_counter = 0
-cars = []
+
+# Game state
 game_is_on = True
-# objects
-player = Player()
-scoreboard = Scoreboard()
+
+# Initialize objects
 screen = Screen()
-
-# may be a good idea to put the bottom two functions inside of car_manager
-# creating the lanes
-def lanes(lane_height):
-    playable_bottom = PLAYABLE_BOTTOM
-    lane = turtle.Turtle()
-    lane.speed(0)
-    lane.hideturtle()
-    lane.penup()
-    lane.pencolor("black")
-    lane.left(180)
-    while playable_bottom <= PLAYABLE_TOP:
-        lane.goto(300, playable_bottom)
-        for _ in range(30):
-            lane.pendown()
-            lane.forward(10)
-            lane.penup()
-            lane.forward(10)
-        playable_bottom+=lane_height
-    return lane_height
-
-# finds the center of the lanes, appends Y coordinate to list
-def get_lane_center(lane_height):
-    lane_centers = []
-    current_lane = PLAYABLE_BOTTOM
-    while current_lane < PLAYABLE_TOP:
-        lane_center = current_lane+(lane_height/2)
-        if lane_center <= 250:
-            lane_centers.append(lane_center)
-            current_lane+= lane_height
-    return lane_centers
-
 screen.setup(WIDTH, HEIGHT)
-screen.tracer(0)
+screen.tracer(0)  # Disable automatic updates for smoother animations
 
-lane_height = lanes(50) # drawing lanes, returning lane_height for later use
-lane_centers = get_lane_center(lane_height)
+player = Player()  # The player's turtle character
+scoreboard = Scoreboard()  # Score tracking
+new_car = CarManager()  # Handles all car-related logic
 
-# basic key input listener - can make it similar to the pong game if needed
+# Key input listener
 screen.listen()
 screen.onkeypress(player.move_up, "Up")
 screen.onkeypress(player.move_down, "Down")
 screen.onkeypress(player.move_left, "Left")
 screen.onkeypress(player.move_right, "Right")
-# these seem fixed to the player pos even when resetting
 
+
+# Main game loop
 while game_is_on:
-    time.sleep(0.1)
-    screen.update()
+    time.sleep(0.1)  # Slows down the loop for better gameplay pacing
+    screen.update()  # Refresh screen
 
-    # need to put player back to start, make cars faster and increase level by 1
+    # Spawn a new car every `car_spawn_interval` loops
+    if loop_counter % car_spawn_interval == 0:
+        new_car.create_car()
+
+    # Move all cars
+    new_car.move()
+
+    # Check if player reaches the finish line
     if player.at_finish_line():
-        scoreboard.update_scoreboard()
+        scoreboard.update_scoreboard()  # Increase score
+        new_car.speed_up()  # Increase car speed
 
+        # Reduce spawn interval (min 1) to increase difficulty
+        if car_spawn_interval > 1:
+            car_spawn_interval -= 1
 
-
-    # new car very 5th loop - could also put in car_manager
-    if loop_counter % 5 == 0: # if there's been 5 loops
-        rand_y = random.choice(lane_centers) #new random position for car to be in
-        new_car = CarManager(rand_y) # new car
-        cars.append(new_car) # adding new car to list of cars
-
-     # can put this in car_manager (have to change a few things for this to work in there)
-    for car in cars:  # moving each car in list
-        car.move()
-        car.speed_up(player.at_finish_line())
-        if car.xcor() < -320:  # deletes car if driven off screen
-            cars.remove(car)
-            car.reset()
-            car.hideturtle()
-
-
-
-    # car collision detection
-    if player.check_collision(cars):
-        # game_is_on = False
+    # Collision detection: if player collides with a car, game over
+    if player.check_collision(new_car.cars):
         screen.update()
         scoreboard.game_over()
-        game_is_on=False
+        game_is_on = False
 
-
-
-    loop_counter +=1
-screen.exitonclick()
+    loop_counter += 1  # Track number of game loops
+screen.exitonclick()  # Keep window open after game ends

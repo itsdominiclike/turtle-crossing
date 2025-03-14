@@ -1,18 +1,23 @@
-# Screen dimensions
-HEIGHT = 600
-WIDTH = 600
+# Constants used throughout the Turtle Crossing game.
 
-# Used in player
-STARTING_POSITION = (0, -280)
-MOVE_DISTANCE = 25
-FINISH_LINE_Y = 280 # might change as player moves in increments of 50
+# Screen dimensions
+HEIGHT = 600  # Height of the game window
+WIDTH = 600   # Width of the game window
+
+# Player settings
+STARTING_POSITION = (0, -280)  # Initial position of the player at the bottom center
+MOVE_DISTANCE = 25  # Distance the player moves per key press
+FINISH_LINE_Y = 280  # Y-coordinate representing the finish line
 
 # Car settings
-COLORS = ["red", "orange", "yellow", "green", "blue", "purple"]
-STARTING_MOVE_DISTANCE = 5
-MOVE_INCREMENT = 10
-START_X = 320
+COLORS = ["red", "orange", "yellow", "green", "blue", "purple"]  # Possible car colors
+STARTING_MOVE_DISTANCE = 5  # Initial speed of cars
+MOVE_INCREMENT = 10  # Speed increment per level
+START_X = 320  # X-coordinate where cars start off-screen
 
 # Playable area limits
-PLAYABLE_TOP = HEIGHT / 2 - 50
-PLAYABLE_BOTTOM = -(HEIGHT / 2 - 50)
+PLAYABLE_TOP = HEIGHT / 2 - 50  # The highest y-coordinate cars can spawn
+PLAYABLE_BOTTOM = -(HEIGHT / 2 - 50)  # The lowest y-coordinate cars can spawn
+
+# Scoreboard font
+FONT = ("Courier", 24, "normal")
